@@ -1,12 +1,15 @@
 include node-core
-http = require 'http'
-url = require 'url'
+express = require 'express'
 fs = require 'fs'
 path = require 'path'
+app = express ()
 
-server = do
-    req res <- IO (http.createServer ())
-    print req.url
-    res.end 'hello world'
-    
-server.listen 8000
+do
+    req res <- IO (app.get '/')
+    res.sendFile (path.join (__dirname ++ '/index.html'))
+
+do
+    req res <- IO (app.get '/tasks.json')
+    res.sendFile (path.join (__dirname ++ '/tasks.json'))
+
+app.listen 8000
