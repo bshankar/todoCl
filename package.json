@@ -1,0 +1,23 @@
+{
+  "name": "todocl",
+  "version": "1.0.0",
+  "description": "A todo app written using cleanlang",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bshankar/todoCl.git"
+  },
+  "keywords": [
+    "clean",
+    "todo"
+  ],
+  "author": "E Bhavani Shankar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bshankar/todoCl/issues"
+  },
+  "homepage": "https://github.com/bshankar/todoCl#readme"
+}
