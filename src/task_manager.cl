@@ -1,30 +1,30 @@
 include browser-core
 
-tasks = []
-
 loadTasks = do
     tasksObj <- getJSON '/tasks.json'
     let fetchedTasks = tasksObj.tasks
-    tasks.splice 0 0
-    tasks.concat fetchedTasks
+    return fetchedTasks
+    
+displayTask index = do
+    tasks <- loadTasks
     let li = document.createElement 'li'
     li.setAttribute 'class' 'collection-item'
     li.setAttribute 'style' 'position: relative'
     let titleSpan = document.createElement 'span'
     titleSpan.setAttribute 'class' 'title'
-    let titleText = document.createTextNode 'Groceries'
+    let titleText = document.createTextNode tasks[index].Title
     titleSpan.appendChild titleText
     let dateSpan = document.createElement 'span'
     dateSpan.setAttribute 'class' 'title'
     dateSpan.setAttribute 'style' 'position: absolute; right: 100px; top: 10px;'
-    let dateText = document.createTextNode '22/02/02'
+    let dateText = document.createTextNode tasks[index].Date
     dateSpan.appendChild dateText     
     let desc = document.createElement 'p'
-    let descText = document.createTextNode 'Get some good food'
+    let descText = document.createTextNode tasks[index].Description
     desc.appendChild descText
     let deleteButton = document.createElement 'a'
     deleteButton.setAttribute 'class' 'btn-floating btn-large waves-effect waves-lightred'
-    deleteButton.setAttribute 'id' 'Groceries'
+    deleteButton.setAttribute 'id' tasks[index].Title
     deleteButton.setAttribute 'style' 'position: absolute; right: 10px; top: 20px'
     deleteButton.setAttribute 'onclick' 'deleteTask(this.id)'
     let deleteIcon = document.createElement 'i'
@@ -38,3 +38,8 @@ loadTasks = do
     li.appendChild deleteButton
     let ul = getElemId 'tasks'
     ul.appendChild li
+    return ul
+
+displayTasks = do
+    ul <- displayTask 0
+    ul <- displayTask 1
