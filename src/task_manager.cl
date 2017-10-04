@@ -4,8 +4,13 @@ loadTasks = do
     tasksObj <- getJSON '/tasks.json'
     let fetchedTasks = tasksObj.tasks
     return fetchedTasks
-    
-displayTask index = do
+
+displayTasks [] = null
+displayTasks tasks = do
+    ul <- displayTask tasks 0
+    displayTasks (tasks.slice 1)
+
+displayTask tasks index = do
     tasks <- loadTasks
     let li = document.createElement 'li'
     li.setAttribute 'class' 'collection-item'
@@ -40,6 +45,6 @@ displayTask index = do
     ul.appendChild li
     return ul
 
-displayTasks = do
-    ul <- displayTask 0
-    ul <- displayTask 1
+do
+    tasks <- loadTasks
+    displayTasks tasks
