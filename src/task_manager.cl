@@ -54,9 +54,27 @@ getInputFromTask = do
 
 addTask = do
     task <- getInputFromTask
-    let a = if (task.Title != '' && task.Date != '' && task.Description != '') then 2 else 1
-    print a
+    let isFilled = task.Title != '' && task.Date != '' && task.Description != ''
+
+clearTasks 0 = null
+clearTasks len = do
+    tasksNeg <- loadTasks
+    let Ul = getElemId 'tasks'
+    Ul.removeChild Ul.firstChild
+    clearTasks (len - 1)
+    
+deleteTask id = do
+    tasks <- loadTasks
+    let newTasks = tasks.filter (\e -> e.Title != id)
+    putJSON '/tasks.json' {'tasks': newTasks}
+    clearTasks (tasks.length + 1)
+    loadDisplayTasks
+    
+loadDisplayTasks = do
+    tasks <- loadTasks
+    let ul = getElemId 'tasks'
+    displayTasks tasks
+    return tasks
 
 do
-    tasks <- loadTasks
-    displayTasks tasks
+    tasks <- loadDisplayTasks
