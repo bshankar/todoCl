@@ -11,7 +11,7 @@ displayTasks tasks = do
     displayTasks (tasks.slice 1)
 
 displayTask tasks index = do
-    tasks <- loadTasks
+    tasksNeg <- loadTasks
     let li = document.createElement 'li'
     li.setAttribute 'class' 'collection-item'
     li.setAttribute 'style' 'position: relative'
