@@ -45,6 +45,18 @@ displayTask tasks index = do
     ul.appendChild li
     return ul
 
+getInputFromTask = do
+    addTaskClicked <- click (getElemId 'saveButton')
+    let titleNode = getElemId 'title'
+    let dateNode = getElemId 'date'
+    let descNode = getElemId 'description'
+    return {'Title': titleNode.value, 'Date': dateNode.value, 'Description': descNode.value}
+
+addTask = do
+    task <- getInputFromTask
+    let a = if (task.Title != '' && task.Date != '' && task.Description != '') then 2 else 1
+    print a
+
 do
     tasks <- loadTasks
     displayTasks tasks
