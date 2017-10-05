@@ -7,29 +7,29 @@ loadTasks = do
 
 displayTasks [] = null
 displayTasks tasks = do
-    ul <- displayTask tasks 0
+    ul <- displayTask tasks
     displayTasks (tasks.slice 1)
 
-displayTask tasks index = do
+displayTask tasks = do
     tasksNeg <- loadTasks
     let li = document.createElement 'li'
     li.setAttribute 'class' 'collection-item'
     li.setAttribute 'style' 'position: relative'
     let titleSpan = document.createElement 'span'
     titleSpan.setAttribute 'class' 'title'
-    let titleText = document.createTextNode tasks[index].Title
+    let titleText = document.createTextNode tasks[0].Title
     titleSpan.appendChild titleText
     let dateSpan = document.createElement 'span'
     dateSpan.setAttribute 'class' 'title'
     dateSpan.setAttribute 'style' 'position: absolute; right: 100px; top: 10px;'
-    let dateText = document.createTextNode tasks[index].Date
+    let dateText = document.createTextNode tasks[0].Date
     dateSpan.appendChild dateText     
     let desc = document.createElement 'p'
-    let descText = document.createTextNode tasks[index].Description
+    let descText = document.createTextNode tasks[0].Description
     desc.appendChild descText
     let deleteButton = document.createElement 'a'
     deleteButton.setAttribute 'class' 'btn-floating btn-large waves-effect waves-lightred'
-    deleteButton.setAttribute 'id' tasks[index].Title
+    deleteButton.setAttribute 'id' tasks[0].Title
     deleteButton.setAttribute 'style' 'position: absolute; right: 10px; top: 20px'
     deleteButton.setAttribute 'onclick' 'deleteTask(this.id)'
     let deleteIcon = document.createElement 'i'
@@ -67,6 +67,7 @@ deleteTask id = do
     tasks <- loadTasks
     let newTasks = tasks.filter (\e -> e.Title != id)
     putJSON '/tasks.json' {'tasks': newTasks}
+    let e = getElemId 'tasks'
     clearTasks (tasks.length + 1)
     loadDisplayTasks
     
