@@ -54,8 +54,12 @@ getInputFromTask = do
 
 addTask = do
     task <- getInputFromTask
-    let isFilled = task.Title != '' && task.Date != '' && task.Description != ''
-
+    tasks <- loadTasks
+    tasks.unshift task
+    putJSON '/tasks.json' {'tasks': tasks}
+    clearTasks (tasks.length)
+    loadDisplayTasks
+        
 clearTasks 0 = null
 clearTasks len = do
     tasksNeg <- loadTasks
